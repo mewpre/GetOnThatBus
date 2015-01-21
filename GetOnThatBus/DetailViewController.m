@@ -7,43 +7,82 @@
 //
 
 #import "DetailViewController.h"
-#import "CustomPointAnnotation.h"
 
 @interface DetailViewController ()
-@property (strong, nonatomic) IBOutlet UILabel *busRoutesLabel;
-@property (strong, nonatomic) IBOutlet UILabel *intermodalLabel;
 @property (strong, nonatomic) IBOutlet UILabel *stopIDLabel;
+@property (strong, nonatomic) IBOutlet UILabel *addressLabel;
+@property (strong, nonatomic) IBOutlet UILabel *busRoutesLabel;
 @property (strong, nonatomic) IBOutlet UILabel *directionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *intermodalLabel;
+
+@property NSString *address;
 
 @end
 
 @implementation DetailViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = NO;
+    [self getAddressFromCoordinates];
+
     self.navigationItem.title = self.annotation.title;
     self.busRoutesLabel.text = [NSString stringWithFormat:@"Routes:\n%@",self.annotation.subtitle];
     self.busRoutesLabel.numberOfLines = 2;
     self.intermodalLabel.text = self.annotation.intermodal;
     self.stopIDLabel.text = [NSString stringWithFormat:@"Stop ID: %@",self.annotation.stopID];
-    if ([self.annotation.direction isEqualToString:@"NB"])
+    self.directionLabel.text = [self getBusDirectionString:self.annotation.direction];
+}
+
+-(void)getAddressFromCoordinates
+{
+    //Creates a CLLocation based on the coordinates of the annotation
+    CLLocation *busStopLocation = [[CLLocation alloc]initWithLatitude:self.annotation.coordinate.latitude longitude:self.annotation.coordinate.longitude];
+
+    //Initialize geocoder
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+
+    //Does a reverse lookup to find placemark based on locatoin
+    [geocoder reverseGeocodeLocation:busStopLocation completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         if(placemarks && placemarks.count > 0)
+         {
+             CLPlacemark *placemark= [placemarks objectAtIndex:0];
+
+             //Ensures (null) does not appear in addressLabel
+             //[placemark thoroughfare] returns the streeet address
+             NSString *streetAddress = @"";
+             if ([placemark thoroughfare])
+             {
+                 streetAddress = [placemark thoroughfare];
+             }
+             //[placemark locality] returns the city
+             //[placemark administrativeArea] returns the state
+             self.addressLabel.text = [NSString stringWithFormat:@"%@\n%@, %@", streetAddress, [placemark locality], [placemark administrativeArea]];
+             self.addressLabel.numberOfLines = 2;
+         }
+     }];
+}
+
+-(NSString *)getBusDirectionString: (NSString*)abbreviation
+{
+    if ([abbreviation isEqualToString:@"NB"])
     {
-        self.directionLabel.text = @"North-Bound";
+        return @"North-Bound";
     }
-    else if ([self.annotation.direction isEqualToString:@"SB"])
+    else if ([abbreviation isEqualToString:@"SB"])
     {
-        self.directionLabel.text = @"South-Bound";
+        return @"South-Bound";
     }
-    else if ([self.annotation.direction isEqualToString:@"EB"])
+    else if ([abbreviation isEqualToString:@"EB"])
     {
-        self.directionLabel.text = @"East-Bound";
+        return @"East-Bound";
     }
     else
     {
-        self.directionLabel.text = @"West-Bound";
+        return @"West-Bound";
     }
-
 }
 
 @end

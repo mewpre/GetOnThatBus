@@ -8,16 +8,19 @@
 
 #import <MapKit/MapKit.h>
 
-@interface CustomPointAnnotation : MKPointAnnotation
+@interface BusStopPointAnnotation : MKPointAnnotation
 
-@property NSString *id;
-@property NSString *uuid;
-@property NSString *position;
-@property NSURL *address;
 @property NSString *stopID;
 @property NSString *direction;
-@property NSString *ward;
 @property NSString *intermodal;
+
+//Unused keys from JSON data
+//@property NSString *id;
+//@property NSString *uuid;
+//@property NSString *position;
+//@property NSURL *address;
+//@property NSString *ward;
+
 
 -(instancetype)initWithDictionary: (NSDictionary *) dictionary;
 

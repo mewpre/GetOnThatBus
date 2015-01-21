@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CustomPointAnnotation.h"
+#import "BusStopPointAnnotation.h"
 
 @interface DetailViewController : UIViewController
 
-@property CustomPointAnnotation *annotation;
+@property BusStopPointAnnotation *annotation;
 @property NSString *busStopName;
 
 @end

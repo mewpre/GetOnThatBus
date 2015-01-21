@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CustomPointAnnotation.h"
+#import "BusStopPointAnnotation.h"
 @interface JSONParser : NSObject
 
+//Static method (+ instead of -)
+//Requires neither an instance of the class nor can they implicitly access the data of such an instance.
 +(NSMutableArray *)parseBusStopJSON;
 
 @end

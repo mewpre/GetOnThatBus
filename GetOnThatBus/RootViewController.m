@@ -11,79 +11,34 @@
 #import <MapKit/MapKit.h>
 
 #import "JSONParser.h"
-#import "CustomPointAnnotation.h"
+#import "BusStopPointAnnotation.h"
 
 @interface RootViewController ()<UITableViewDataSource, UITableViewDelegate>
+
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) IBOutlet UITableView *busStopTableView;;
 @property JSONParser *parser;
-@property (strong, nonatomic) IBOutlet UITableView *busStopTableView;
-@property (strong, nonatomic) IBOutlet UIView *subView;
-@property CLLocationManager *locationManager;
 @property NSMutableArray *annotationsArray;
 
 @end
 
 @implementation RootViewController
 
+#pragma mark - View-related Methods
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     self.navigationController.navigationBar.hidden = YES;
     self.busStopTableView.hidden = YES;
+
     self.annotationsArray = [JSONParser parseBusStopJSON];
-    self.locationManager = [CLLocationManager new];
-    [self.locationManager requestWhenInUseAuthorization];
-    self.mapView.showsUserLocation = YES;
+
     [self loadBusPins];
 
     [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 }
 
-//Gets called for every annotation on map
--(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
-{
-    MKPinAnnotationView *pin = [[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:nil];
-    pin.canShowCallout = YES;
-    CustomPointAnnotation *customAnnotation = annotation;
-    if ([customAnnotation.intermodal isEqualToString:@"Metra"])
-    {
-        pin.pinColor = MKPinAnnotationColorPurple;
-    }
-    else if ([customAnnotation.intermodal isEqualToString:@"Pace"])
-    {
-        pin.pinColor = MKPinAnnotationColorGreen;
-    }
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    [rightButton setTitle:annotation.title forState:UIControlStateNormal];
-    [pin setRightCalloutAccessoryView:rightButton];
-
-    return pin;
-
-}
-
--(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
-{
-    [self performSegueWithIdentifier:@"detailSegue" sender:view];
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    CustomPointAnnotation *annotation = [self.annotationsArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = annotation.title;
-    cell.detailTextLabel.text = annotation.subtitle;
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self performSegueWithIdentifier:@"detailSegue" sender:tableView];
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.annotationsArray.count;
-}
 - (IBAction)segmentSwitch:(UISegmentedControl *)sender
 {
     if (sender.selectedSegmentIndex == 0)
@@ -100,10 +55,60 @@
     }
 }
 
-//Helper Method to load pins
+#pragma mark - MapView Methods
+//Gets called for every annotation on map
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    BusStopPointAnnotation *busAnnotation = annotation;
+    MKPinAnnotationView *pin = [[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:nil];
+    pin.canShowCallout = YES;
+    if ([busAnnotation.intermodal isEqualToString:@"Metra"])
+    {
+        pin.pinColor = MKPinAnnotationColorGreen;
+    }
+    else if ([busAnnotation.intermodal isEqualToString:@"Pace"])
+    {
+        pin.pinColor = MKPinAnnotationColorPurple;
+    }
+
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    [rightButton setTitle:annotation.title forState:UIControlStateNormal];
+    [pin setRightCalloutAccessoryView:rightButton];
+
+    return pin;
+
+}
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    [self performSegueWithIdentifier:@"detailSegue" sender:view];
+}
+
+#pragma mark - TableView Delegate Methods
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    BusStopPointAnnotation *annotation = [self.annotationsArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = annotation.title;
+    cell.detailTextLabel.text = annotation.subtitle;
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"detailSegue" sender:tableView];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.annotationsArray.count;
+}
+
+#pragma mark - Misc. Methods
 - (void)loadBusPins
 {
-    for (CustomPointAnnotation *annotation in self.annotationsArray)
+    for (BusStopPointAnnotation *annotation in self.annotationsArray)
     {
         [self.mapView addAnnotation:annotation];
     }

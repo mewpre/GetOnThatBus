@@ -21,7 +21,7 @@
 
     for (NSDictionary *busStop in jsonArray)
     {
-        CustomPointAnnotation *annotation = [[CustomPointAnnotation alloc]initWithDictionary:busStop];
+        BusStopPointAnnotation *annotation = [[BusStopPointAnnotation alloc]initWithDictionary:busStop];
         [annotationArray addObject: annotation];
     }
     return annotationArray;

@@ -17,7 +17,7 @@
 		60A998BD1A6F061700E8E0CD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A998BC1A6F061700E8E0CD /* MapKit.framework */; };
 		60A998C31A6F084200E8E0CD /* JSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A998C21A6F084200E8E0CD /* JSONParser.m */; };
 		60A998C61A6F1A8A00E8E0CD /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A998C51A6F1A8A00E8E0CD /* DetailViewController.m */; };
-		60A998CB1A6F263400E8E0CD /* CustomPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A998CA1A6F263400E8E0CD /* CustomPointAnnotation.m */; };
+		60A998CB1A6F263400E8E0CD /* BusStopPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A998CA1A6F263400E8E0CD /* BusStopPointAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +49,8 @@
 		60A998C21A6F084200E8E0CD /* JSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONParser.m; sourceTree = "<group>"; };
 		60A998C41A6F1A8900E8E0CD /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		60A998C51A6F1A8A00E8E0CD /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		60A998C91A6F263400E8E0CD /* CustomPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPointAnnotation.h; sourceTree = "<group>"; };
-		60A998CA1A6F263400E8E0CD /* CustomPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPointAnnotation.m; sourceTree = "<group>"; };
+		60A998C91A6F263400E8E0CD /* BusStopPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopPointAnnotation.h; sourceTree = "<group>"; };
+		60A998CA1A6F263400E8E0CD /* BusStopPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStopPointAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,8 +148,8 @@
 			children = (
 				60A998C11A6F084200E8E0CD /* JSONParser.h */,
 				60A998C21A6F084200E8E0CD /* JSONParser.m */,
-				60A998C91A6F263400E8E0CD /* CustomPointAnnotation.h */,
-				60A998CA1A6F263400E8E0CD /* CustomPointAnnotation.m */,
+				60A998C91A6F263400E8E0CD /* BusStopPointAnnotation.h */,
+				60A998CA1A6F263400E8E0CD /* BusStopPointAnnotation.m */,
 			);
 			name = "Custom Classes";
 			sourceTree = "<group>";
@@ -255,7 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60A9989F1A6F05BB00E8E0CD /* RootViewController.m in Sources */,
-				60A998CB1A6F263400E8E0CD /* CustomPointAnnotation.m in Sources */,
+				60A998CB1A6F263400E8E0CD /* BusStopPointAnnotation.m in Sources */,
 				60A9989C1A6F05BB00E8E0CD /* AppDelegate.m in Sources */,
 				60A998C31A6F084200E8E0CD /* JSONParser.m in Sources */,
 				60A998991A6F05BB00E8E0CD /* main.m in Sources */,
