@@ -17,7 +17,7 @@
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) IBOutlet UITableView *busStopTableView;;
-@property JSONParser *parser;
+//@property JSONParser *parser;
 @property NSMutableArray *annotationsArray;
 
 @end
@@ -87,11 +87,11 @@
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    [self performSegueWithIdentifier:@"detailSegue" sender:view];
+    BusStopPointAnnotation *annotation = view.annotation;
+    [self performSegueWithIdentifier:@"detailSegue" sender:annotation];
 }
 
 #pragma mark - TableView Delegate Methods
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
@@ -103,7 +103,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self performSegueWithIdentifier:@"detailSegue" sender:tableView];
+    BusStopPointAnnotation *annotation = [self.annotationsArray objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"detailSegue" sender:annotation];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -123,17 +124,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     DetailViewController *dvc = segue.destinationViewController;
-    if ([sender isKindOfClass:[MKAnnotationView class]])
-    {
-        MKAnnotationView *annotationView = sender;
-        dvc.annotation = annotationView.annotation;
-    }
-    else if ([sender isKindOfClass:[UITableView class]])
-    {
-        UITableView *tableView = sender;
-        NSIndexPath *index = tableView.indexPathForSelectedRow;
-        dvc.annotation = [self.annotationsArray objectAtIndex:index.row];
-    }
+    dvc.annotation = sender;
 }
 
 @end
