@@ -39,6 +39,13 @@
     [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    //Want the navigation bar to be hidden in mapMode
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = self.busStopTableView.hidden;
+}
+
 - (IBAction)segmentSwitch:(UISegmentedControl *)sender
 {
     if (sender.selectedSegmentIndex == 0)
@@ -76,7 +83,6 @@
     [pin setRightCalloutAccessoryView:rightButton];
 
     return pin;
-
 }
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
@@ -128,7 +134,6 @@
         NSIndexPath *index = tableView.indexPathForSelectedRow;
         dvc.annotation = [self.annotationsArray objectAtIndex:index.row];
     }
-
 }
 
 @end
